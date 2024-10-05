@@ -1,4 +1,4 @@
-# Swiss Map for Go
+# Swiss Map 
 
 This repository provides a highly efficient hash map implementation in Go, inspired by Swiss tables as presented by **Matt Kulukundis** from Google at [this talk](https://www.youtube.com/watch?v=ncHmEUmJZf4&t=0s) and described in Abseil's [article](https://abseil.io/blog/20180927-swisstables). The original ideas behind the Swiss map have been adapted for Go, with significant performance optimizations. This repository also takes inspiration from the work done in [Dolthub's Swiss Map](https://github.com/dolthub/swiss/) and [CockroachDB's Swiss Map](https://github.com/cockroachdb/swiss/).
 
@@ -23,9 +23,6 @@ The choice of hashing function can provide significant performance improvements 
 ### Memory and Speed Optimization
 
 Compared to the standard Go map, this implementation is **twice as memory efficient** and **significantly faster** in terms of both insertions and lookups. The control bytes allow efficient management of empty and deleted slots, ensuring that the map can scale well with minimal memory overhead.
-
-### Non-Thread-Safe
-This implementation is **not thread-safe**. So if you need to use it in a concurrent environment, you will need to manage synchronization externally.
 
 ## Code Example
 
