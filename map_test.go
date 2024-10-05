@@ -372,6 +372,33 @@ func TestDoublePutDoubleDelete(t *testing.T) {
 	}
 }
 
+func TestIterator(t *testing.T) {
+	size := 1000
+	swiss := New[int, int](size)
+	for i := range size {
+		swiss.Put(i, i)
+	}
+	t.Run("iterate through all elems", func(t *testing.T) {
+		var cnt int
+		for k, v := range swiss.All() {
+			assert.Equal(t, k, v)
+			cnt++
+		}
+		assert.Equal(t, cnt, swiss.Len())
+	})
+	t.Run("find element", func(t *testing.T) {
+		elem := randn.Intn(size)
+		var cnt int
+		for _, v := range swiss.All() {
+			if v == elem {
+				break
+			}
+			cnt++
+		}
+		assert.NotEqual(t, cnt, swiss.Len())
+	})
+}
+
 func TestControlSetByte(t *testing.T) {
 	t.Parallel()
 	tests := []struct {

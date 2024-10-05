@@ -33,6 +33,7 @@
 package swiss
 
 import (
+	"iter"
 	"math/bits"
 	"math/rand"
 	"unsafe"
@@ -224,6 +225,22 @@ func (m *Map[K, V]) Len() int {
 // the load factor.
 func (m *Map[K, V]) Cap() int {
 	return m.cap
+}
+
+func (m *Map[K, V]) All() iter.Seq2[K, V] {
+	return func(yield func(K, V) bool) {
+		groups := m.grps
+		for i := range groups {
+			mask := groups[i].maskFull()
+			for mask != 0 {
+				j := mask.first()
+				if !yield(groups[i].slts[j].key, groups[i].slts[j].value) {
+					return
+				}
+				mask = mask.rmfirst()
+			}
+		}
+	}
 }
 
 // rehash reorganizes the map by creating new groups and reinserting all
